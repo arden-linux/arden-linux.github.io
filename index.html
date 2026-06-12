@@ -6,32 +6,83 @@
     <title>Arden Linux</title>
     <style>
         body {
-            background-color: #0f0f12;
+            /* Градиент в стиле SteamOS Vapor */
+            background: linear-gradient(135deg, #09090e 0%, #15092b 40%, #2c0e4d 80%, #1a0636 100%);
+            background-attachment: fixed;
             color: #e2e2e7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            padding: 40px 20px;
             margin: 0;
+            padding: 120px 20px 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
         }
+
+        /* Наша красивая шапка сайта */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 15, 18, 0.3);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(185, 35, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        /* Блок логотипа слева */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-logo img {
+            height: 38px; /* Чуть увеличили для солидности */
+            width: auto;
+            object-fit: contain;
+            border-radius: 6px; /* Мягкое скругление углов для черного квадрата */
+            border: 1px solid rgba(185, 35, 255, 0.3); /* Тонкая фиолетовая рамка вокруг лого */
+            box-shadow: 0 0 10px rgba(185, 35, 255, 0.2); /* Легкое неоновое свечение */
+        }
+        .nav-logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
         
         /* Кнопки переключения языка */
         .lang-switcher {
+            width: 100%;
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
         }
         .lang-btn {
-            background: #18181c;
-            border: 1px solid #27272a;
+            background: rgba(24, 24, 28, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #e2e2e7;
-            padding: 8px 16px;
+            padding: 8px 18px;
             cursor: pointer;
-            border-radius: 6px;
-            margin-left: 8px;
+            border-radius: 20px;
             font-weight: bold;
             transition: all 0.2s;
         }
@@ -39,82 +90,109 @@
             background-color: #b923ff;
             border-color: #b923ff;
             color: #ffffff;
+            box-shadow: 0 0 15px rgba(185, 35, 255, 0.4);
         }
         .lang-btn:hover:not(.active) {
             border-color: #b923ff;
+            background: rgba(185, 35, 255, 0.1);
         }
 
-        /* Маленький прямоугольник-предупреждение */
+        /* Прямоугольник-предупреждение */
         .ai-warning {
             display: inline-block;
-            background-color: rgba(185, 35, 255, 0.1);
+            background-color: rgba(185, 35, 255, 0.15);
             border: 1px solid #b923ff;
-            color: #d877ff;
-            padding: 6px 14px;
+            color: #e29eff;
+            padding: 8px 18px;
             font-size: 0.85rem;
             border-radius: 20px;
             margin-bottom: 25px;
             font-weight: 500;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 10px rgba(185, 35, 255, 0.2);
         }
 
         h1 {
             color: #ffffff;
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin: 0 0 15px 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
         .highlight {
             color: #b923ff;
+            text-shadow: 0 0 20px rgba(185, 35, 255, 0.5);
         }
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             line-height: 1.6;
-            color: #a1a1aa;
-            margin-bottom: 40px;
+            color: #c2c2ca;
+            max-width: 650px;
+            margin: 0 0 40px 0;
         }
         .features {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            width: 100%;
         }
         .feature-card {
-            background: #18181c;
-            border: 1px solid #27272a;
-            border-radius: 12px;
-            padding: 24px;
-            width: 320px; /* Сделал чуть шире, раз их теперь два */
+            background: rgba(20, 16, 32, 0.6);
+            border: 1px solid rgba(185, 35, 255, 0.2);
+            border-radius: 16px;
+            padding: 28px;
+            width: 340px;
             text-align: left;
             box-sizing: border-box;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(185, 35, 255, 0.6);
+            box-shadow: 0 10px 25px rgba(185, 35, 255, 0.15);
         }
         .feature-card h3 {
             color: #b923ff;
             margin-top: 0;
-            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(185, 35, 255, 0.3);
         }
         .feature-card p {
             font-size: 1rem;
-            line-height: 1.5;
-            color: #a1a1aa;
+            line-height: 1.6;
+            color: #b4b4bc;
             margin-bottom: 0;
         }
         .btn {
             display: inline-block;
             background-color: #b923ff;
             color: #ffffff;
-            padding: 12px 30px;
+            padding: 14px 36px;
             text-decoration: none;
             font-weight: bold;
-            border-radius: 8px;
-            margin-top: 40px;
-            transition: background 0.2s;
+            border-radius: 30px;
+            margin-top: 45px;
+            transition: all 0.2s;
+            box-shadow: 0 5px 20px rgba(185, 35, 255, 0.4);
         }
         .btn:hover {
             background-color: #9d18e0;
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(185, 35, 255, 0.6);
         }
     </style>
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="logo.png" alt="Arden Linux Logo">
+            <span>Arden</span>
+        </div>
+    </nav>
+
     <div class="container">
         
         <div class="lang-switcher">
