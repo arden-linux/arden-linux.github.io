@@ -3,51 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arden Linux — Arch для обычных пользователей</title>
+    <title>Arden Linux</title>
     <style>
         body {
             background-color: #0f0f12;
             color: #e2e2e7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             margin: 0;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
         }
+        
+        /* Кнопки переключения языка */
+        .lang-switcher {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            background: #18181c;
+            border: 1px solid #27272a;
+            color: #e2e2e7;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-left: 8px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background-color: #b923ff;
+            border-color: #b923ff;
+            color: #ffffff;
+        }
+        .lang-btn:hover:not(.active) {
+            border-color: #b923ff;
+        }
+
+        /* Маленький прямоугольник-предупреждение */
+        .ai-warning {
+            display: inline-block;
+            background-color: rgba(185, 35, 255, 0.1);
+            border: 1px solid #b923ff;
+            color: #d877ff;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
         h1 {
             color: #ffffff;
             font-size: 3rem;
             margin-bottom: 10px;
         }
         .highlight {
-            color: #b923ff; /* Наш фирменный фиолетовый цвет */
+            color: #b923ff;
         }
-        p {
-            font-size: 1.2rem;
+        .subtitle {
+            font-size: 1.25rem;
             line-height: 1.6;
             color: #a1a1aa;
+            margin-bottom: 40px;
         }
         .features {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 20px;
             flex-wrap: wrap;
-            margin-top: 40px;
+            margin-top: 20px;
         }
         .feature-card {
             background: #18181c;
             border: 1px solid #27272a;
             border-radius: 12px;
-            padding: 20px;
-            width: 250px;
-            margin: 10px;
+            padding: 24px;
+            width: 320px; /* Сделал чуть шире, раз их теперь два */
             text-align: left;
+            box-sizing: border-box;
         }
         .feature-card h3 {
             color: #b923ff;
             margin-top: 0;
+            font-size: 1.3rem;
+        }
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #a1a1aa;
+            margin-bottom: 0;
         }
         .btn {
             display: inline-block;
@@ -57,7 +106,7 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 8px;
-            margin-top: 30px;
+            margin-top: 40px;
             transition: background 0.2s;
         }
         .btn:hover {
@@ -67,25 +116,72 @@
 </head>
 <body>
     <div class="container">
-        <h1><span class="highlight">Arden</span> Linux</h1>
-        <p>Современная, стабильная и дружелюбная операционная система на базе Arch Linux. Концепция "поставил и забыл" для тех, кто хочет просто пользоваться компьютером, сохраняя всю мощь пакетного менеджера pacman.</p>
+        
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="setLanguage('ru')" id="btn-ru">RU</button>
+            <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+        </div>
 
+        <div class="ai-warning" id="ai-warn">
+            Предупреждение. Проект разрабатывается при помощи ИИ!
+        </div>
+
+        <h1><span class="highlight">Arden</span> Linux</h1>
+        
+        <p class="subtitle" id="site-subtitle">
+            Stable-like дистрибутив для тех, кто не хочет возиться с настройкой и установкой системы
+        </p>
+        
         <div class="features">
             <div class="feature-card">
-                <h3>📦 Версионные релизы</h3>
-                <p>Контроль стабильности благодаря фиксации обновлений (релиз 26.06).</p>
+                <h3 id="f1-title">🎮 Универсальность</h3>
+                <p id="f1-text">Может быть использован в офисных задачах и играх. Наш дистрибутив готов к этому.</p>
             </div>
+            
             <div class="feature-card">
-                <h3>🎮 Готов к играм</h3>
-                <p>Компоненты для запуска игр работают сразу из коробки.</p>
-            </div>
-            <div class="feature-card">
-                <h3>✨ Красота из коробки</h3>
-                <p>Предустановленная и кастомизированная графическая оболочка KDE Plasma.</p>
+                <h3 id="f2-title">✨ Выбор интерфейса</h3>
+                <p id="f2-text">Есть выбор из двух DE, Gnome и KDE Plasma.</p>
             </div>
         </div>
 
-        <a href="#" class="btn">Скоро скачивание (ISO)</a>
+        <a href="#" class="btn" id="download-btn">Скоро скачивание (ISO)</a>
     </div>
+
+    <script>
+        const translations = {
+            ru: {
+                warning: "Предупреждение. Проект разрабатывается при помощи ИИ!",
+                subtitle: "Stable-like дистрибутив для тех, кто не хочет возиться с настройкой и установкой системы",
+                f1_title: "🎮 Универсальность",
+                f1_text: "Может быть использован в офисных задачах и играх. Наш дистрибутив готов к этому.",
+                f2_title: "✨ Выбор интерфейса",
+                f2_text: "Есть выбор из двух DE, Gnome и KDE Plasma.",
+                download: "Скоро скачивание (ISO)"
+            },
+            en: {
+                warning: "Warning. The project is being developed with the help of AI!",
+                subtitle: "A stable-like distribution for those who don't want to mess around with system configuration and installation",
+                f1_title: "🎮 Versatility",
+                f1_text: "Can be used for office tasks and gaming. Our distribution is ready for this.",
+                f2_title: "✨ DE Choices",
+                f2_text: "There is a choice of two DEs, Gnome and KDE Plasma.",
+                download: "Coming Soon (ISO)"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.getElementById('ai-warn').innerText = translations[lang].warning;
+            document.getElementById('site-subtitle').innerText = translations[lang].subtitle;
+            document.getElementById('f1-title').innerText = translations[lang].f1_title;
+            document.getElementById('f1-text').innerText = translations[lang].f1_text;
+            document.getElementById('f2-title').innerText = translations[lang].f2_title;
+            document.getElementById('f2-text').innerText = translations[lang].f2_text;
+            document.getElementById('download-btn').innerText = translations[lang].download;
+
+            document.getElementById('btn-ru').classList.remove('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById(`btn-${lang}`).classList.add('active');
+        }
+    </script>
 </body>
 </html>
